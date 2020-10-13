@@ -72,12 +72,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onClick(View view) {
                 Bundle data = new Bundle();
                 data.putSerializable("kos", kos);
-                Intent intent = new Intent(getApplicationContext(),showData.class);
-                intent.putExtras(data);
-                startActivity(intent);
+                finish();
             }
         });
-
     }
 
 

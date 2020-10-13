@@ -8,6 +8,9 @@
         <item name="background">@color/colorTransparentBlue</item>
     </style>
 
+    <style name="SearchActivityWhiteStatusBar" parent="AppTheme">
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
 
     <style name="LoginTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
         <item name="boxStrokeColor">@color/colorAccent</item>
