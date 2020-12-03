@@ -46,7 +46,7 @@ public class LoginUser extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-        if(firebaseAuth.getCurrentUser() != null && !firebaseUser.isEmailVerified()){
+        if(firebaseAuth.getCurrentUser() != null && firebaseUser.isEmailVerified()){
             Toast.makeText(LoginUser.this,"Welcome Back!", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(getApplicationContext(),searchActivity.class));
             finish();
@@ -85,8 +85,6 @@ public class LoginUser extends AppCompatActivity {
                                 }
                                 else{
                                     Toast.makeText(LoginUser.this, "Please Verify Your Account!", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(getApplicationContext(),RegisterUser.class));
-                                    finish();
                                 }
                             }
                             else{
