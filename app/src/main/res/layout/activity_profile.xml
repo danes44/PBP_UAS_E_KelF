@@ -61,8 +61,6 @@
         app:layout_constraintTop_toTopOf="@+id/profilePicture"
         app:layout_constraintVertical_bias="1.0" />
 
-
-
     <TextView
         android:id="@+id/LabelFullName"
         android:layout_width="wrap_content"

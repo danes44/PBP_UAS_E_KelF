@@ -19,6 +19,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginUser extends AppCompatActivity {
 
@@ -43,7 +44,9 @@ public class LoginUser extends AppCompatActivity {
         btnSignIn       = (MaterialButton)findViewById(R.id.btnSignIn);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        if(firebaseAuth.getCurrentUser() != null){
+        final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
+        if(firebaseAuth.getCurrentUser() != null && !firebaseUser.isEmailVerified()){
             Toast.makeText(LoginUser.this,"Welcome Back!", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(getApplicationContext(),searchActivity.class));
             finish();
@@ -69,19 +72,29 @@ public class LoginUser extends AppCompatActivity {
                     passwordText.setError("Password must be >= 6 Characters");
                     return;
                 }
-                firebaseAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            Toast.makeText(LoginUser.this, "Logged In Successfully", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(),searchActivity.class));
-                            finish();
+
+                else{
+                    firebaseAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()){
+                                if (firebaseUser != null && firebaseUser.isEmailVerified()){
+                                    Toast.makeText(LoginUser.this, "Logged In Successfully", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(getApplicationContext(),searchActivity.class));
+                                    finish();
+                                }
+                                else{
+                                    Toast.makeText(LoginUser.this, "Please Verify Your Account!", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(getApplicationContext(),RegisterUser.class));
+                                    finish();
+                                }
+                            }
+                            else{
+                                Toast.makeText(LoginUser.this, "Error!" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
                         }
-                        else{
-                            Toast.makeText(LoginUser.this, "Error!" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+                    });
+                }
             }
 
 

@@ -122,8 +122,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         FirebaseAuth.getInstance().signOut();
         Toast.makeText(ProfileActivity.this,"Good Bye!", Toast.LENGTH_SHORT).show();
-        finish();
         startActivity(new Intent(getApplicationContext(),LoginUser.class));
+        finish();
 
     }
 

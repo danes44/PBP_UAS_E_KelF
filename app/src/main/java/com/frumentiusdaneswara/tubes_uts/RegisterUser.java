@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -15,11 +16,14 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class RegisterUser extends AppCompatActivity {
 
@@ -29,6 +33,7 @@ public class RegisterUser extends AppCompatActivity {
     ProgressBar progressBar;
 //    User user;
     private String CHANNEL_ID = "Channel 1";
+    private static final String TAG = "RegisterUser";
 
 
     @Override
@@ -48,10 +53,10 @@ public class RegisterUser extends AppCompatActivity {
         btnSignIn       = (MaterialButton)findViewById(R.id.btnSignIn);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        if(firebaseAuth.getCurrentUser() != null){
-            startActivity(new Intent(getApplicationContext(),LoginUser.class));
-            finish();
-        }
+//        if(firebaseAuth.getCurrentUser() != null){
+//            startActivity(new Intent(getApplicationContext(),LoginUser.class));
+//            finish();
+//        }
 
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,11 +95,27 @@ public class RegisterUser extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
-                            Toast.makeText(RegisterUser.this, "User Registered", Toast.LENGTH_SHORT).show();
-//                            addUser();
-                            savePreferences();
-                            startActivity(new Intent(getApplicationContext(),LoginUser.class));
-                            finish();
+
+                            //send verification link
+
+                            FirebaseUser user = firebaseAuth.getCurrentUser();
+                            user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(RegisterUser.this, "Verification Email Has Been Sent.", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(RegisterUser.this, "User Registered", Toast.LENGTH_SHORT).show();
+        //                            addUser();
+                                    savePreferences();
+                                    startActivity(new Intent(getApplicationContext(),VerificationActivity.class));
+                                    finish();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d(TAG, "onFailure : Email not sent" + e.getMessage());
+                                }
+                            });
+
                         }
                         else{
                             Toast.makeText(RegisterUser.this, "Error!" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -123,28 +144,8 @@ public class RegisterUser extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("fullName", nameText.getEditText().getText().toString());
         editor.putString("phoneNumber", phoneNumber.getEditText().getText().toString());
+        editor.putString("email", emailText.getEditText().getText().toString());
+        editor.putString("password", passwordText.getEditText().getText().toString());
         editor.apply();
     }
-
-//    private void addUser() {
-//        class AddUser extends AsyncTask<Void,Void,Void>{
-//            @Override
-//            protected Void doInBackground(Void... voids) {
-//                String phone = passwordText.getEditText().getText().toString().trim();
-//                String name = nameText.getEditText().getText().toString().trim();
-//                final String address = "-";
-//                User user = new User();
-//                user.setFullName(name);
-//                user.setPhoneNumber(phone);
-//                user.setAddress(address);
-//
-//                DatabaseClient.getInstance(RegisterUser.this.getApplicationContext()).getDatabase()
-//                        .userDao()
-//                        .insert(user);
-//                return null;
-//            }
-//        }
-//        AddUser add = new AddUser();
-//        add.execute();
-//    }
 }
