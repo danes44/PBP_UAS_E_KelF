@@ -68,23 +68,25 @@ public class LoginUser extends AppCompatActivity {
                     return;
                 }
 
+                System.out.println("BBBBBBBBBBBBBBBAAACCCCCCCCCCCCCCAAAAAAAAAAAAAAAAAAAAA"+firebaseUser);
                 if(password.length() < 6){
                     passwordText.setError("Password must be >= 6 Characters");
                     return;
                 }
-
                 else{
                     firebaseAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()){
-                                if (firebaseUser != null && firebaseUser.isEmailVerified()){
-                                    Toast.makeText(LoginUser.this, "Logged In Successfully", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(getApplicationContext(),searchActivity.class));
-                                    finish();
-                                }
-                                else{
-                                    Toast.makeText(LoginUser.this, "Please Verify Your Account!", Toast.LENGTH_SHORT).show();
+                                if (firebaseUser != null){
+                                    if (firebaseUser.isEmailVerified()){
+                                        Toast.makeText(LoginUser.this, "Logged In Successfully", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(getApplicationContext(),searchActivity.class));
+                                        finish();
+                                    }
+                                    else{
+                                        Toast.makeText(LoginUser.this, "Please Verify Your Account!", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                             }
                             else{

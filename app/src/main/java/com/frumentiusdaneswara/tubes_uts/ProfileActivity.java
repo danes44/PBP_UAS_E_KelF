@@ -16,6 +16,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -23,24 +24,41 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+
+import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity {
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
     public static final int mode = Activity.MODE_PRIVATE;
+    private static final String TAG = "ProfileUser";
 
     public static final int CAMERA_PERM_CODE = 101;
     public static final int CAMERA_REQUEST_CODE = 102;
     ImageView selectedImage;
     MaterialButton btnChange,btnEdit;
     TextView viewEmail;
-    FirebaseUser user;
+
+    FirebaseAuth firebaseAuth;
+    FirebaseFirestore firebaseFirestore;
+    String userID;
+
 
 
 
@@ -65,18 +83,23 @@ public class ProfileActivity extends AppCompatActivity {
         selectedImage = findViewById(R.id.profilePicture);
         btnChange = (MaterialButton) findViewById(R.id.btnChangePicture);
         btnEdit = (MaterialButton) findViewById(R.id.btnEditProfile);
+        TextView viewFullName    =  findViewById(R.id.inputFullName);
+        TextView viewEmail       =  findViewById(R.id.inputEmail);
+        TextView viewPhone       =  findViewById(R.id.viewPhone);
 
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user != null){
-            String email = user.getEmail();
-            viewEmail = findViewById(R.id.inputEmail);
-            viewEmail.setText(email);
-            loadPreferences();
-        }
-        else{
-            viewEmail = findViewById(R.id.inputEmail);
-            viewEmail.setText("-");
-        }
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        userID = firebaseAuth.getCurrentUser().getUid();
+
+        DocumentReference documentReference = firebaseFirestore.collection("users").document(userID);
+        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                viewEmail.setText(value.getString("email"));
+                viewFullName.setText(value.getString("name"));
+                viewPhone.setText(value.getString("phone"));
+            }
+        });
 
         btnChange.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,37 +115,33 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-    private void loadPreferences() {
-        preferences = getSharedPreferences("myKey", mode);
-        TextView viewFullName    =  findViewById(R.id.inputFullName);
-        TextView viewPhone       =  findViewById(R.id.viewPhone);
-        selectedImage = (ImageView) findViewById(R.id.profilePicture);
-        if (preferences!=null){
-            String fullName = preferences.getString("fullName", "-");
-            String phoneNumber = preferences.getString("phoneNumber", "-");
-            String img_str = preferences.getString("userphoto", "");
-            viewFullName.setText(fullName);
-            viewPhone.setText(phoneNumber);
-            if (!img_str.equals("")){
-                //decode string to image
-                String base=img_str;
-                byte[] imageAsBytes = Base64.decode(base.getBytes(), Base64.DEFAULT);
-                selectedImage.setImageBitmap(BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length) );
-            }
-
-        }
-
-    }
+//    private void loadPreferences() {
+//        preferences = getSharedPreferences("myKey", mode);
+//        TextView viewFullName    =  findViewById(R.id.inputFullName);
+//        TextView viewPhone       =  findViewById(R.id.viewPhone);
+//        selectedImage = (ImageView) findViewById(R.id.profilePicture);
+//        if (preferences!=null){
+//            String fullName = preferences.getString("fullName", "-");
+//            String phoneNumber = preferences.getString("phoneNumber", "-");
+//            String img_str = preferences.getString("userphoto", "");
+//            viewFullName.setText(fullName);
+//            viewPhone.setText(phoneNumber);
+//            if (!img_str.equals("")){
+//                //decode string to image
+//                String base=img_str;
+//                byte[] imageAsBytes = Base64.decode(base.getBytes(), Base64.DEFAULT);
+//                selectedImage.setImageBitmap(BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length) );
+//            }
+//
+//        }
+//
+//    }
 
     public void signout(View view) {
-        preferences = getSharedPreferences("myKey", mode);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.remove("fullName").apply(); //delete preferences yang ada dengan key nya fullname sama phonenumber
-        editor.remove("phoneNumber").apply();
-
         FirebaseAuth.getInstance().signOut();
         Toast.makeText(ProfileActivity.this,"Good Bye!", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(getApplicationContext(),LoginUser.class));
+        System.out.println("BACCCCCCCAAAAAAAAAAAAAA INNNNNNNNIIIIIIIIIIIIIII"+firebaseAuth.getCurrentUser());
+        startActivity(new Intent(getApplicationContext(),RegisterUser.class));
         finish();
 
     }
@@ -167,11 +186,27 @@ public class ProfileActivity extends AppCompatActivity {
             byte[] imageByte=stream.toByteArray();
             String img_str = Base64.encodeToString(imageByte, 0);
 
-            SharedPreferences preferences = getSharedPreferences("myKey",MODE_PRIVATE);//buat nyimpen ke data perersistent
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putString("userphoto",img_str);
-            editor.apply();
-            System.out.println("TERLEWATI");
+            //memasukkan string image ke firestore
+            DocumentReference documentReference = firebaseFirestore.collection("users").document(userID);
+            Map<String,Object> user = new HashMap<>();
+            user.put("profileImage",img_str);
+            documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>(){
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d(TAG,"onSuccess: Profile Created" + userID);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d(TAG, "onFailure: " + e.toString());
+                }
+            });
+
+//            SharedPreferences preferences = getSharedPreferences("myKey",MODE_PRIVATE);//buat nyimpen ke data perersistent
+//            SharedPreferences.Editor editor = preferences.edit();
+//            editor.putString("userphoto",img_str);
+//            editor.apply();
+//            System.out.println("TERLEWATI");
         }
     }
 }
