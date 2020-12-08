@@ -36,7 +36,7 @@ import java.util.Map;
 public class RegisterUser extends AppCompatActivity {
 
     TextInputLayout nameText, phoneNumber, emailText, passwordText;
-    TextView result; //buat ngetest hashcode
+    TextView result; //buat temp-nya hashcode
     MaterialButton btnSignUp, btnSignIn;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firebaseFirestore;
@@ -127,6 +127,7 @@ public class RegisterUser extends AppCompatActivity {
                                     user.put("phone",phone);
                                     user.put("email",email);
                                     user.put("password",result.getText().toString().trim()); //masukin hasil encrypt ke atribut password
+                                    user.put("profileImage",null);
                                     documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>(){
                                         @Override
                                         public void onSuccess(Void aVoid) {

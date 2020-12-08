@@ -36,6 +36,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.SetOptions;
 
 import org.w3c.dom.Text;
 
@@ -87,19 +88,27 @@ public class ProfileActivity extends AppCompatActivity {
         TextView viewEmail       =  findViewById(R.id.inputEmail);
         TextView viewPhone       =  findViewById(R.id.viewPhone);
 
+
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
-        userID = firebaseAuth.getCurrentUser().getUid();
+        if (firebaseAuth.getCurrentUser()!=null){
+            System.out.println(firebaseAuth.getCurrentUser());
+            userID = firebaseAuth.getCurrentUser().getUid();
 
-        DocumentReference documentReference = firebaseFirestore.collection("users").document(userID);
-        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                viewEmail.setText(value.getString("email"));
-                viewFullName.setText(value.getString("name"));
-                viewPhone.setText(value.getString("phone"));
-            }
-        });
+            DocumentReference documentReference = firebaseFirestore.collection("users").document(userID);
+            documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                    viewEmail.setText(value.getString("email"));
+                    viewFullName.setText(value.getString("name"));
+                    viewPhone.setText(value.getString("phone"));
+
+                    byte[] decodedString = Base64.decode(value.getString("profileImage"), Base64.DEFAULT);
+                    Bitmap image = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                    selectedImage.setImageBitmap(image);// buat ngeset bitmap ke imageView
+                }
+            });
+        }
 
         btnChange.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,6 +147,9 @@ public class ProfileActivity extends AppCompatActivity {
 //    }
 
     public void signout(View view) {
+        preferences = getSharedPreferences("myKey", mode);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.remove("idUserLogin").apply(); //delete preferences yang ada dengan key nya idUserLogin
         FirebaseAuth.getInstance().signOut();
         Toast.makeText(ProfileActivity.this,"Good Bye!", Toast.LENGTH_SHORT).show();
         System.out.println("BACCCCCCCAAAAAAAAAAAAAA INNNNNNNNIIIIIIIIIIIIIII"+firebaseAuth.getCurrentUser());
@@ -190,17 +202,7 @@ public class ProfileActivity extends AppCompatActivity {
             DocumentReference documentReference = firebaseFirestore.collection("users").document(userID);
             Map<String,Object> user = new HashMap<>();
             user.put("profileImage",img_str);
-            documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>(){
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Log.d(TAG,"onSuccess: Profile Created" + userID);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.d(TAG, "onFailure: " + e.toString());
-                }
-            });
+            documentReference.set(user, SetOptions.merge());
 
 //            SharedPreferences preferences = getSharedPreferences("myKey",MODE_PRIVATE);//buat nyimpen ke data perersistent
 //            SharedPreferences.Editor editor = preferences.edit();

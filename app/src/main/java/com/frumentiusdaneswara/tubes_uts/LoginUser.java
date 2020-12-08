@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -44,13 +45,13 @@ public class LoginUser extends AppCompatActivity {
         btnSignIn       = (MaterialButton)findViewById(R.id.btnSignIn);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-        if(firebaseAuth.getCurrentUser() != null && firebaseUser.isEmailVerified()){
-            Toast.makeText(LoginUser.this,"Welcome Back!", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(getApplicationContext(),searchActivity.class));
-            finish();
-        }
+
+//        if(firebaseAuth.getCurrentUser() != null && firebaseUser.isEmailVerified()){
+//            Toast.makeText(LoginUser.this,"Welcome Back!", Toast.LENGTH_SHORT).show();
+//            startActivity(new Intent(getApplicationContext(),searchActivity.class));
+//            finish();
+//        }
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,7 +69,7 @@ public class LoginUser extends AppCompatActivity {
                     return;
                 }
 
-                System.out.println("BBBBBBBBBBBBBBBAAACCCCCCCCCCCCCCAAAAAAAAAAAAAAAAAAAAA"+firebaseUser);
+
                 if(password.length() < 6){
                     passwordText.setError("Password must be >= 6 Characters");
                     return;
@@ -78,15 +79,16 @@ public class LoginUser extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()){
-                                if (firebaseUser != null){
-                                    if (firebaseUser.isEmailVerified()){
-                                        Toast.makeText(LoginUser.this, "Logged In Successfully", Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(getApplicationContext(),searchActivity.class));
-                                        finish();
-                                    }
-                                    else{
-                                        Toast.makeText(LoginUser.this, "Please Verify Your Account!", Toast.LENGTH_SHORT).show();
-                                    }
+                                final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                                System.out.println("BBBBBBBBBBBBBBBAAACCCCCCCCCCCCCCAAAAAAAAAAAAAAAAAAAAA"+firebaseUser);
+                                if (firebaseUser.isEmailVerified()){
+                                    Toast.makeText(LoginUser.this, "Logged In Successfully", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(getApplicationContext(),searchActivity.class));
+//                                        savePreferences();
+                                    finish();
+                                }
+                                else{
+                                    Toast.makeText(LoginUser.this, "Please Verify Your Account!", Toast.LENGTH_SHORT).show();
                                 }
                             }
                             else{
@@ -106,6 +108,16 @@ public class LoginUser extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(),RegisterUser.class));
             }
         });
+    }
+
+    private void savePreferences() {
+        firebaseAuth = FirebaseAuth.getInstance();
+        final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
+        SharedPreferences sharedPref = getSharedPreferences("myKey", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("idUserLogin", firebaseUser.getUid());
+        editor.apply();
     }
 
 
