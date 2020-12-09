@@ -20,7 +20,7 @@ public class showData extends AppCompatActivity {
 
     private TextView nama,alamat,nohp,harga;
     private Kos kos;
-    private Button back,btnMaps;
+    private Button back,btnMaps,btnTransaksi;
     private ActivityShowDataBinding binding;
     private ImageView imageView;
 
@@ -37,6 +37,8 @@ public class showData extends AppCompatActivity {
 
         kos = (Kos) getIntent().getSerializableExtra("kos");
         binding.setKos(kos);
+
+
 
         MaterialToolbar materialToolbar = (MaterialToolbar) findViewById(R.id.profileToolbar);
         materialToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -60,7 +62,18 @@ public class showData extends AppCompatActivity {
             }
         });
 
+        btnTransaksi = findViewById(R.id.btn_transaksi);
+        btnTransaksi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle data = new Bundle();
+                data.putSerializable("kos", kos);
+                Intent intent = new Intent(showData.this,TransaksiActivity.class);
+                intent.putExtras(data);
+                view.getContext().startActivity(intent);
 
+            }
+        });
 
 
 

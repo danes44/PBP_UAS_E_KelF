@@ -6,16 +6,34 @@ import androidx.databinding.BindingAdapter;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
 public class Kos implements Serializable {
+
+    @SerializedName("id")
+    private String id;
+
+    @SerializedName("namakos")
     public String namakos;
+
+    @SerializedName("alamatkos")
     public String alamatkos;
+
+    @SerializedName("hargakos")
     public String hargakos;
+
+    @SerializedName("nohpkos")
     public String nohpkos;
+
+    @SerializedName("imageID")
     public String imageID;
+
+    @SerializedName("longitude")
     public double longitude;
+
+    @SerializedName("latitude")
     public double latitude;
 
     public Kos(String namakos, String alamatkos, String hargakos, String nohpkos, String imageID, double latitude, double longitude) {
@@ -35,6 +53,13 @@ public class Kos implements Serializable {
                 .into(view);
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getImageID() {
         return imageID;

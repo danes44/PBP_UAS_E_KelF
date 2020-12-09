@@ -18,7 +18,7 @@ public class SplashActivity extends Activity {
         Window window = SplashActivity.this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.setStatusBarColor(ContextCompat.getColor(SplashActivity.this, R.color.colorWhite));
+        window.setStatusBarColor(ContextCompat.getColor(SplashActivity.this, R.color.colorPrimary));
 
 
         handler=new Handler();

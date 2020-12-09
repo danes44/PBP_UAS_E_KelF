@@ -78,7 +78,7 @@ public class LoginUser extends AppCompatActivity {
                 if(email.equals("admin") && password.equals("admin123"))
                 {
                     Toast.makeText(LoginUser.this, "Logged In as Admin Successfully", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(),TestActivity.class));
+                    startActivity(new Intent(getApplicationContext(),menuadminActivity.class));
                 }
 
                 else{

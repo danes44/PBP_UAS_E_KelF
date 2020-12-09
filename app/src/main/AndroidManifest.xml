@@ -12,7 +12,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TestActivity"></activity>
+        <activity android:name=".CreateKosActivity"/>
+        <activity android:name=".EditKosActivity" />
+        <activity android:name=".EditTransaksiActivity" />
+        <activity android:name=".KosAdminActivity" />
+        <activity android:name=".TransaksiAdminActivity" />
+        <activity android:name=".menuadminActivity" />
+        <activity android:name=".TransaksiActivity" />
         <activity android:name=".VerificationActivity" />
         <activity android:name=".MapsActivity" />
         <activity android:name=".showData" />

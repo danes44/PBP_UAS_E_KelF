@@ -41,7 +41,7 @@ public class RegisterUser extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firebaseFirestore;
     ProgressBar progressBar;
-//    User user;
+    //    User user;
     private String CHANNEL_ID = "Channel 1";
     private static final String TAG = "RegisterUser";
     private String userID;
@@ -110,7 +110,7 @@ public class RegisterUser extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
-                            
+
                             //send verification link
 
                             FirebaseUser user = firebaseAuth.getCurrentUser();
