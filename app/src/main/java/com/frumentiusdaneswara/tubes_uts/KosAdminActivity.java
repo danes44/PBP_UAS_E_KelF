@@ -42,6 +42,7 @@ public class KosAdminActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(KosAdminActivity.this,CreateKosActivity.class);
                 startActivity(i);
+                finish();
             }
         });
 

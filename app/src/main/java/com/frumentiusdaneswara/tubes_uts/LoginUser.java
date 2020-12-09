@@ -79,6 +79,7 @@ public class LoginUser extends AppCompatActivity {
                 {
                     Toast.makeText(LoginUser.this, "Logged In as Admin Successfully", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(getApplicationContext(),menuadminActivity.class));
+                    finish();
                 }
 
                 else{

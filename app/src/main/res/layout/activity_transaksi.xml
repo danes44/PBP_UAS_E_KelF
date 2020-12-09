@@ -14,6 +14,7 @@
         android:text="Booking Kos"
         android:textSize="20dp"
         android:textStyle="bold"
+        android:textColor="@color/colorPrimary"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:textAlignment="center"
@@ -26,6 +27,15 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="30dp"
+        app:boxBackgroundColor="@android:color/transparent"
+        app:boxCornerRadiusBottomEnd="30dp"
+        app:boxCornerRadiusBottomStart="30dp"
+        app:boxCornerRadiusTopEnd="30dp"
+        app:boxCornerRadiusTopStart="30dp"
+        app:boxStrokeColor="@color/colorAccent"
+        app:endIconMode="clear_text"
+        app:hintTextColor="@color/colorAccent"
+        android:background="@android:color/transparent"
         android:id="@+id/twnama"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:hint="Nama Pemesan">
@@ -33,6 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/edit_namapemasan"
+            android:textCursorDrawable="@null"
             android:inputType="text"/>
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -43,12 +54,22 @@
         android:layout_marginRight="30dp"
         android:layout_marginTop="30dp"
         android:id="@+id/twnohp"
+        app:boxBackgroundColor="@android:color/transparent"
+        app:boxCornerRadiusBottomEnd="30dp"
+        app:boxCornerRadiusBottomStart="30dp"
+        app:boxCornerRadiusTopEnd="30dp"
+        app:boxCornerRadiusTopStart="30dp"
+        app:boxStrokeColor="@color/colorAccent"
+        app:endIconMode="clear_text"
+        app:hintTextColor="@color/colorAccent"
+        android:background="@android:color/transparent"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:hint="Nomor Telepon Pemesan">
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/edit_nohppemesan"
+            android:textCursorDrawable="@null"
             android:inputType="text"/>
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -59,12 +80,22 @@
         android:layout_marginRight="30dp"
         android:layout_marginTop="30dp"
         android:id="@+id/twmetode"
+        app:boxBackgroundColor="@android:color/transparent"
+        app:boxCornerRadiusBottomEnd="30dp"
+        app:boxCornerRadiusBottomStart="30dp"
+        app:boxCornerRadiusTopEnd="30dp"
+        app:boxCornerRadiusTopStart="30dp"
+        app:boxStrokeColor="@color/colorAccent"
+        app:endIconMode="clear_text"
+        app:hintTextColor="@color/colorAccent"
+        android:background="@android:color/transparent"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:hint="Metode Pembayaran">
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/edit_metode_pembayaran"
+            android:textCursorDrawable="@null"
             android:inputType="text"/>
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -75,12 +106,22 @@
         android:layout_marginRight="30dp"
         android:layout_marginTop="30dp"
         android:id="@+id/twharga"
+        app:boxBackgroundColor="@android:color/transparent"
+        app:boxCornerRadiusBottomEnd="30dp"
+        app:boxCornerRadiusBottomStart="30dp"
+        app:boxCornerRadiusTopEnd="30dp"
+        app:boxCornerRadiusTopStart="30dp"
+        app:boxStrokeColor="@color/colorAccent"
+        app:endIconMode="clear_text"
+        app:hintTextColor="@color/colorAccent"
+        android:background="@android:color/transparent"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:hint="Harga Kos">
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/edit_hargakos"
+            android:textCursorDrawable="@null"
             android:inputType="text"/>
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -91,24 +132,37 @@
         android:layout_marginTop="30dp">
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCancel"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_marginLeft="20dp"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
-            android:id="@+id/btnCancel"
-            android:text="CANCEL"
-            android:textColor="#000000"
-            layout_alignParentLeft="true"
+            android:layout_alignParentLeft="true"
             android:layout_marginHorizontal="10dp"
-            android:backgroundTint="#FF0000"/>
+            android:layout_marginStart="32dp"
+            android:backgroundTint="@android:color/transparent"
+            android:hint="CANCEL"
+            android:textColorHint="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.492"/>
 
         <com.google.android.material.button.MaterialButton
-            android:layout_width="160dp"
-            android:layout_height="wrap_content"
             android:id="@+id/btnBook"
-            android:textColor="#000000"
-            android:text="BOOK"
-            layout_alignParentRight="true"
+            android:layout_width="160dp"
+            android:layout_height="60dp"
+            android:layout_marginRight="20dp"
+            android:layout_alignParentRight="true"
             android:layout_marginHorizontal="10dp"
-            android:backgroundTint="#82EEFD"/>
+            android:layout_marginEnd="28dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="BOOK"
+            android:textColor="@android:color/white"
+            app:cornerRadius="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
 
     </LinearLayout>

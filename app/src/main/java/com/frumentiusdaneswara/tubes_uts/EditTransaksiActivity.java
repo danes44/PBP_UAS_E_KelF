@@ -105,6 +105,7 @@ public class EditTransaksiActivity extends AppCompatActivity {
                     update_user();
                     Intent i = new Intent(EditTransaksiActivity.this,TransaksiAdminActivity.class);
                     startActivity(i);
+                    finish();
                 }
             }
         });

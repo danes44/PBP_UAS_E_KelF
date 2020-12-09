@@ -7,9 +7,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
+
 public class menuadminActivity extends AppCompatActivity {
 
-    private ImageButton btntransaksi, btnKos, btnsignout;
+    private MaterialCardView btntransaksi, btnKos;
+    MaterialButton btnsignout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +29,6 @@ public class menuadminActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(menuadminActivity.this,TransaksiAdminActivity.class);
                 startActivity(i);
-
             }
         });
 
@@ -41,6 +44,8 @@ public class menuadminActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i2 = new Intent(menuadminActivity.this,LoginUser.class);
+                startActivity(i2);
+                finish();
             }
         });
 

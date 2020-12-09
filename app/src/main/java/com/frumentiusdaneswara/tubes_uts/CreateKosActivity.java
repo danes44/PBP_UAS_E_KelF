@@ -126,6 +126,7 @@ public class CreateKosActivity extends AppCompatActivity {
                 progressDialog.dismiss();
                 Intent intent = new Intent(CreateKosActivity.this,KosAdminActivity.class);
                 startActivity(intent);
+                finish();
             }
 
             @Override
@@ -134,6 +135,7 @@ public class CreateKosActivity extends AppCompatActivity {
                 progressDialog.dismiss();
                 Intent intent = new Intent(CreateKosActivity.this,KosAdminActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
     }

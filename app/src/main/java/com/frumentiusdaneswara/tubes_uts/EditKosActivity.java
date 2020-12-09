@@ -128,6 +128,7 @@ public class EditKosActivity extends AppCompatActivity {
                     update_user();
                     Intent i = new Intent(EditKosActivity.this,KosAdminActivity.class);
                     startActivity(i);
+                    finish();
                 }
             }
         });

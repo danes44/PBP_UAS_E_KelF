@@ -2,6 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -9,7 +10,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="?attr/actionBarSize">
 
         <TextView
             android:layout_width="wrap_content"
@@ -27,160 +28,173 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_gravity="center_horizontal"
+            android:layout_centerVertical="true"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="17dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/ic_baseline_close_24"
-            android:foreground="?android:attr/selectableItemBackground"/>
+            android:foreground="?android:attr/selectableItemBackground" />
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="336dp"
         android:orientation="vertical">
 
-        <androidx.cardview.widget.CardView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="293dp"
             android:layout_margin="20dp"
-            app:cardElevation="6dp"
-            app:cardCornerRadius="6dp">
+            android:orientation="vertical"
+            android:paddingBottom="10dp">
 
             <LinearLayout
-                android:layout_margin="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content">
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:textSize="20dp"
-                            android:textStyle="bold"
-                            android:text="Nama Pemesan"
-                            android:textColor="@color/black"/>
-                        <TextView
-                            android:id="@+id/twNama"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginEnd="-1dp"
-                            android:hint="Nama Pemesan"
-                            android:textAlignment="textEnd"
-                            android:textColor="@color/black"
-                            android:textSize="20dp"/>
-                    </RelativeLayout>
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:textSize="20dp"
-                            android:textStyle="bold"
-                            android:text="Nomor Telepon"
-                            android:textColor="@color/black"/>
-                        <TextView
-                            android:id="@+id/twNohp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginEnd="-1dp"
-                            android:hint="Nomor Telepon"
-                            android:textAlignment="textEnd"
-                            android:textColor="@color/black"
-                            android:textSize="20dp"/>
-                    </RelativeLayout>
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:textSize="20dp"
-                            android:textStyle="bold"
-                            android:text="Metode"
-                            android:textColor="@color/black"/>
-                        <TextView
-                            android:id="@+id/twmetode"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginEnd="-1dp"
-                            android:hint="Metode"
-                            android:textAlignment="textEnd"
-                            android:textColor="@color/black"
-                            android:textSize="20dp"/>
-                    </RelativeLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:text="Nama Pemesan"
+                        android:textColor="@color/black"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:textSize="20dp"
-                            android:textStyle="bold"
-                            android:text="Harga"
-                            android:textColor="@color/black"/>
+                    <TextView
+                        android:id="@+id/twNama"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginEnd="-1dp"
+                        android:hint="Nama Pemesan"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/black"
+                        android:textSize="20dp" />
+                </RelativeLayout>
 
-                        <TextView
-                            android:id="@+id/twharga"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginEnd="-1dp"
-                            android:hint="Harga"
-                            android:textAlignment="textEnd"
-                            android:textColor="@color/black"
-                            android:textSize="20dp"/>
-                    </RelativeLayout>
-
-                </LinearLayout>
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp">
+                    android:layout_height="wrap_content">
 
-                    <com.google.android.material.button.MaterialButton
-                        android:layout_width="100dp"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Delete"
+                        android:layout_alignParentLeft="true"
+                        android:text="Nomor Telepon"
                         android:textColor="@color/black"
-                        app:backgroundTint="@color/red"
-                        android:id="@+id/btnDelete"/>
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
 
-                    <com.google.android.material.button.MaterialButton
-                        android:layout_width="100dp"
+                    <TextView
+                        android:id="@+id/twNohp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Update"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginEnd="-1dp"
+                        android:hint="Nomor Telepon"
+                        android:textAlignment="textEnd"
                         android:textColor="@color/black"
-                        app:backgroundTint="@color/blue"
-                        android:id="@+id/btnUpdate"/>
+                        android:textSize="20dp" />
+                </RelativeLayout>
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:text="Metode"
+                        android:textColor="@color/black"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/twmetode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginEnd="-1dp"
+                        android:hint="Metode"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/black"
+                        android:textSize="20dp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:text="Harga"
+                        android:textColor="@color/black"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/twharga"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginEnd="-1dp"
+                        android:hint="Harga"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/black"
+                        android:textSize="20dp" />
+                </RelativeLayout>
 
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="162dp"
+                android:layout_marginTop="15dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnDelete"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:text="Delete"
+                    android:textColor="@color/red"
+                    app:cornerRadius="30dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/btnUpdate"
+                    app:layout_constraintVertical_bias="0.222"
+                    app:strokeColor="@color/red" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnUpdate"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:text="Update"
+                    android:textColor="@color/white"
+                    app:backgroundTint="@color/colorPrimary"
+                    app:cornerRadius="30dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.271" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 </LinearLayout>

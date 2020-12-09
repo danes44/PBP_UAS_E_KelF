@@ -38,6 +38,7 @@ public class TransaksiAdminActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 onBackPressed();
+                finish();
             }
         });
         searchView = findViewById(R.id.searchUser);
