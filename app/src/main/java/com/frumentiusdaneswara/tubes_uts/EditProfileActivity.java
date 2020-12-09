@@ -64,6 +64,7 @@ public class EditProfileActivity extends AppCompatActivity {
         materialToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startActivity(new Intent(EditProfileActivity.this, ProfileActivity.class));
                 finish();
             }
         });

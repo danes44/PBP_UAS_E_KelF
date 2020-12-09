@@ -45,7 +45,7 @@ public class LoginUser extends AppCompatActivity {
         btnSignIn       = (MaterialButton)findViewById(R.id.btnSignIn);
 
         firebaseAuth = FirebaseAuth.getInstance();
-
+        loadPreferences();
 
 //        if(firebaseAuth.getCurrentUser() != null && firebaseUser.isEmailVerified()){
 //            Toast.makeText(LoginUser.this,"Welcome Back!", Toast.LENGTH_SHORT).show();
@@ -74,6 +74,13 @@ public class LoginUser extends AppCompatActivity {
                     passwordText.setError("Password must be >= 6 Characters");
                     return;
                 }
+
+                if(email.equals("admin") && password.equals("admin123"))
+                {
+                    Toast.makeText(LoginUser.this, "Logged In as Admin Successfully", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(),TestActivity.class));
+                }
+
                 else{
                     firebaseAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
@@ -84,7 +91,7 @@ public class LoginUser extends AppCompatActivity {
                                 if (firebaseUser.isEmailVerified()){
                                     Toast.makeText(LoginUser.this, "Logged In Successfully", Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(getApplicationContext(),searchActivity.class));
-//                                        savePreferences();
+                                    savePreferences();
                                     finish();
                                 }
                                 else{
@@ -120,5 +127,16 @@ public class LoginUser extends AppCompatActivity {
         editor.apply();
     }
 
+    private void loadPreferences() {
+        SharedPreferences preferences = getSharedPreferences("myKey", MODE_PRIVATE);
+        firebaseAuth = FirebaseAuth.getInstance();
+        final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        String id = preferences.getString("idUserLogin","-");
+        if (preferences!=null && !id.isEmpty() && !id.equals("-") ){
+            Toast.makeText(LoginUser.this, "Welcome Back!", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getApplicationContext(), searchActivity.class));
+            finish();
+        }
 
+    }
 }

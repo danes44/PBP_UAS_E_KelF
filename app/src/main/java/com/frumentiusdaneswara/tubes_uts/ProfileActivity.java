@@ -53,7 +53,7 @@ public class ProfileActivity extends AppCompatActivity {
     public static final int CAMERA_PERM_CODE = 101;
     public static final int CAMERA_REQUEST_CODE = 102;
     ImageView selectedImage;
-    MaterialButton btnChange,btnEdit;
+    MaterialButton btnChange,btnEdit,btnSignOut;
     TextView viewEmail;
 
     FirebaseAuth firebaseAuth;
@@ -82,6 +82,7 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
         selectedImage = findViewById(R.id.profilePicture);
+        btnSignOut = (MaterialButton) findViewById(R.id.btnSignOut);
         btnChange = (MaterialButton) findViewById(R.id.btnChangePicture);
         btnEdit = (MaterialButton) findViewById(R.id.btnEditProfile);
         TextView viewFullName    =  findViewById(R.id.inputFullName);
@@ -99,13 +100,33 @@ public class ProfileActivity extends AppCompatActivity {
             documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                    viewEmail.setText(value.getString("email"));
-                    viewFullName.setText(value.getString("name"));
-                    viewPhone.setText(value.getString("phone"));
+//
+                    if (error!=null){
+                        Log.d(TAG,"Error:"+error.getMessage());
+                    }
+                    else{
+                        System.out.println("asdasdssssssssssssssssssssssssssssssssssssssssssssssssss"+value.getString("email"));
+                        String email = value.getString("email");
+                        String name = value.getString("name");
+                        String phone = value.getString("phone");
 
-                    byte[] decodedString = Base64.decode(value.getString("profileImage"), Base64.DEFAULT);
-                    Bitmap image = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                    selectedImage.setImageBitmap(image);// buat ngeset bitmap ke imageView
+                        if (!email.isEmpty() && !name.isEmpty() && !phone.isEmpty()){
+                            viewEmail.setText(email);
+                            viewFullName.setText(name);
+                            viewPhone.setText(phone);
+                        }
+                        else{
+                            viewEmail.setText("-");
+                            viewFullName.setText("-");
+                            viewPhone.setText("-");
+                        }
+
+                        if ( value.getString("profileImage")!=null){
+                            byte[] decodedString = Base64.decode(value.getString("profileImage"), Base64.DEFAULT);
+                            Bitmap image = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                            selectedImage.setImageBitmap(image);// buat ngeset bitmap ke imageView
+                        }
+                    }
                 }
             });
         }
@@ -120,6 +141,19 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(),EditProfileActivity.class));
+            }
+        });
+        btnSignOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                preferences = getSharedPreferences("myKey", mode);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.remove("idUserLogin").apply(); //delete preferences yang ada dengan key nya idUserLogin
+                FirebaseAuth.getInstance().signOut();
+                Toast.makeText(ProfileActivity.this,"Good Bye!", Toast.LENGTH_SHORT).show();
+                System.out.println("BACCCCCCCAAAAAAAAAAAAAA INNNNNNNNIIIIIIIIIIIIIII"+firebaseAuth.getCurrentUser());
+                startActivity(new Intent(ProfileActivity.this,LoginUser.class));
+                finish();
             }
         });
     }
@@ -146,17 +180,17 @@ public class ProfileActivity extends AppCompatActivity {
 //
 //    }
 
-    public void signout(View view) {
-        preferences = getSharedPreferences("myKey", mode);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.remove("idUserLogin").apply(); //delete preferences yang ada dengan key nya idUserLogin
-        FirebaseAuth.getInstance().signOut();
-        Toast.makeText(ProfileActivity.this,"Good Bye!", Toast.LENGTH_SHORT).show();
-        System.out.println("BACCCCCCCAAAAAAAAAAAAAA INNNNNNNNIIIIIIIIIIIIIII"+firebaseAuth.getCurrentUser());
-        startActivity(new Intent(getApplicationContext(),RegisterUser.class));
-        finish();
-
-    }
+//    public void signout() {
+//        preferences = getSharedPreferences("myKey", mode);
+//        SharedPreferences.Editor editor = preferences.edit();
+//        editor.remove("idUserLogin").apply(); //delete preferences yang ada dengan key nya idUserLogin
+//        FirebaseAuth.getInstance().signOut();
+//        Toast.makeText(ProfileActivity.this,"Good Bye!", Toast.LENGTH_SHORT).show();
+//        System.out.println("BACCCCCCCAAAAAAAAAAAAAA INNNNNNNNIIIIIIIIIIIIIII"+firebaseAuth.getCurrentUser());
+//        startActivity(new Intent(ProfileActivity.this,LoginUser.class));
+//        finish();
+//
+//    }
 
     private void askCameraPermission() {
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
