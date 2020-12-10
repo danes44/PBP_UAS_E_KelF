@@ -150,7 +150,7 @@ public class DetailKosFragment extends DialogFragment {
         add.enqueue(new Callback<KosResponse>() {
             @Override
             public void onResponse(Call<KosResponse> call, Response<KosResponse> response) {
-                Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
             }
 

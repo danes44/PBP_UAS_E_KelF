@@ -177,9 +177,10 @@ public class EditKosActivity extends AppCompatActivity {
         add.enqueue(new Callback<KosResponse>() {
             @Override
             public void onResponse(Call<KosResponse> call, Response<KosResponse> response) {
-                Toast.makeText(EditKosActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(EditKosActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
-
+                Intent intent = new Intent(EditKosActivity.this,KosAdminActivity.class);
+                startActivity(intent);
             }
 
             @Override

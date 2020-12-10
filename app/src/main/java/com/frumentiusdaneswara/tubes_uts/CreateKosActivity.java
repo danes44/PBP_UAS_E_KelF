@@ -68,9 +68,6 @@ public class CreateKosActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Longitude = Double.parseDouble(etLongitudek.getText().toString());
-                Latitude = Double.parseDouble(etLatitudek.getText().toString());
-
                 if(etNamak.getText().toString().isEmpty())
                 {
                     etNamak.setError("Isikan dengan benar");
@@ -93,8 +90,8 @@ public class CreateKosActivity extends AppCompatActivity {
                 }
                 else if(etImageIDk.getText().toString().isEmpty())
                 {
-                    etAlamatk.setError("Isikan dengan benar");
-                    etAlamatk.requestFocus();
+                    etImageIDk.setError("Isikan dengan benar");
+                    etImageIDk.requestFocus();
                 }
                 else if(etLongitudek.getText().toString().isEmpty())
                 {
@@ -117,25 +114,25 @@ public class CreateKosActivity extends AppCompatActivity {
 
     private void saveUser(){
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Longitude = Double.parseDouble(etLongitudek.getText().toString());
+        Latitude = Double.parseDouble(etLatitudek.getText().toString());
         Call<KosResponse> add = apiService.createKos(etNamak.getText().toString(), etAlamatk.getText().toString(),etHargak.getText().toString(),etNohpk.getText().toString(),etImageIDk.getText().toString(),Latitude,Longitude);
 
         add.enqueue(new Callback<KosResponse>() {
             @Override
             public void onResponse(Call<KosResponse> call, Response<KosResponse> response) {
-                Toast.makeText(CreateKosActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(CreateKosActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
                 Intent intent = new Intent(CreateKosActivity.this,KosAdminActivity.class);
                 startActivity(intent);
-                finish();
             }
 
             @Override
             public void onFailure(Call<KosResponse> call, Throwable t) {
-                Toast.makeText(CreateKosActivity.this, "Kesalahan Jaringan", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(CreateKosActivity.this, "Kesalahan Jaringan", Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
                 Intent intent = new Intent(CreateKosActivity.this,KosAdminActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
     }
