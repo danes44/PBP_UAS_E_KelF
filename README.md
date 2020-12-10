@@ -1,4 +1,4 @@
-# PBP_UTS_E_KelF [Bapakos]
+# PBP_UAS_E_KelF [Bapakos]
 An android project for UAJY 5th Semester Final Test Task 2020/2021
 
 
